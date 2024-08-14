@@ -1,18 +1,23 @@
-# Use the official Node.js image as the base image
+# Use the official Node.js 18 Alpine image as the base image
 FROM node:18-alpine
-# Set the working directory inside the container
+
+# Set the working directory in the container
 WORKDIR /app
-# Enable corepack and set the Yarn version to 3.4.1
-RUN corepack enable \
-    && corepack prepare yarn@3.4.1 --activate
-# Copy package.json and yarn.lock first for better caching
+
+# Enable Corepack and prepare Yarn 3.4.1 for immediate use
+RUN corepack enable && corepack prepare yarn@3.4.1 --activate
+
+# Copy the package.json and yarn.lock files separately to leverage Docker cache
 COPY package.json yarn.lock ./
-# Copy all files from the current directory to the container, including node_modules
+
+# Install dependencies using Yarn. The --frozen-lockfile flag ensures that the versions specified in yarn.lock are used.
+RUN yarn install --frozen-lockfile
+
+# Copy the rest of the application code into the container
 COPY . .
-RUN yarn
-# Expose the port the app runs on (adjust if necessary)
+
+# Expose the port on which the application will run
 EXPOSE 3000
-WORKDIR /app
-CMD ["yarn", "start"]
 
-
+# Define the command to start the application
+CMD ["node", "index.js"]
