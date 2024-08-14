@@ -1,3 +1,5 @@
+yarn install --frozen-lockfile
+
 COPY package.json yarn.lock ./
 RUN yarn install
 COPY . .
