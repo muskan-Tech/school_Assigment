@@ -1,0 +1,57 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar') %>
+
+<table>
+    <tbody>
+        <% if(data.length > 0) { %>
+            <% data.forEach(function(c) { %>
+                <tr>
+                    <td>
+                        <% if(c.table) { %>
+                            <!-- Thumbnail image -->
+                            <a href="#" data-toggle="modal" data-target="#imageModal-<%= c.id %>">
+                                <img src="<%= c.table %>" width="130" height="130" class="rounded pt-2" alt="Thumbnail Image">
+                            </a>
+
+                            <!-- Bootstrap Modal -->
+                            <div class="modal fade" id="imageModal-<%= c.id %>" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-<%= c.id %>" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 style="color: rgb(244, 154, 20);" class="modal-title" id="imageModalLabel-<%= c.id %>">Full Time Table</h5>
+                                            <a type="button" class="btn btn-secondary"  href="/student-detail">close</a>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="<%= c.table %>" class="img-fluid" width="100%" alt="Full Image">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <img src="/assets/img/images.png" width="130" height="130" style="margin-left: 16%;" class="rounded pt-2" id="profileImage">
+                        <% } %>
+                    </td>
+                </tr>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="6" class="text-center">
+                    <span style="color: rgb(243, 151, 13); font-size: x-large;">Time Table Not Found</span>
+                </td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<!-- Script to trigger the modal automatically -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        <% if(data.length > 0 && data[0].table) { %>
+            $('#imageModal-<%= data[0].id %>').modal('show');
+        <% } %>
+    });
+</script>
+
+<%- include('includes/footer') %>

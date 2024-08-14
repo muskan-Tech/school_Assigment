@@ -1,0 +1,98 @@
+<%- include('includes/header') %>
+<!-- ======= Sidebar ======= -->
+<%- include('includes/sidebar') %>
+<style>
+    .card {
+        margin: 20px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    .table th {
+        background-color: #690505;
+        color: white;
+    }
+</style>
+
+<main id="main" class="main">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="/student_att">
+                <div class="row pt-4">
+                    <% if (session.user_role == 0){ %>
+                    <input type="hidden" name="student_id" value="<%= data[0].student_id %>" />
+                    <% } %>
+                    <div class="col-sm-4">
+                        <select name="subject_id" class="form-control" required>
+                            <option value="">Select subject</option>
+                            <% subject.forEach(function(sub) { %>
+                                <option value="<%= sub.id %>">
+                                    <%= sub.subject %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-sm-1 pt-1">
+                        <input type="submit" name="sea" class="btn btn-info" value="Search" />
+                    </div>
+                    
+                </div>
+            </form>
+            
+            <% if (data && data.length > 0) { %>
+            <!-- Class Listing Table -->
+            <div class="table-responsive">
+                <table class="table  table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Subject</th>
+                            <% data.forEach(function(c, index) { %>
+                                <th scope="col">
+                                    <%= new Date(c.date).toISOString().slice(0, 10) %>
+                                </th>
+                            <% }); %>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td>
+                                <%= data[0].subject %>
+                            </td>
+                            <% data.forEach(function(c, index) { %>
+                                <td>
+                                    <% if(c.status == 1) { %>
+                                        <span class="btn btn-success">Present</span>
+                                    <% } else { %>
+                                        <span class="btn btn-danger">Absent</span>
+                                    <% } %>
+                                </td>
+                            <% }); %>
+                            <% let count = data.filter(record => record.status === 1).length; %>
+                            <td>
+                                <%= count %>/<%= data.length %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <% } else if (typeof data !== 'undefined') { %>
+            <!-- No Data Found Message -->
+            <div class="alert alert-warning text-center" role="alert">
+                No Attendance found.
+            </div>
+            <% } %>
+        </div>
+    </div>
+    
+</main>
+
+<%- include('includes/footer') %>

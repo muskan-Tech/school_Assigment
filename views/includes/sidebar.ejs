@@ -1,0 +1,207 @@
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+   
+
+    <!-- End Dashboard Nav -->
+    <!-- ##################################################################################### -->
+    <!--WHEN Admin Login -->
+    <!-- ##################################################################################### -->
+    <% if(session.user_role==0){ %>
+      <li class="nav-item">
+        <a class="nav-link " href="/">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+
+          <li>
+            <a href="/class">
+              <i class="bi bi-circle"></i><span>Class</span>
+            </a>
+          </li>
+         
+          <li>
+            <a href="/subject">
+              <i class="bi bi-circle"></i><span>Teacher Assign</span>
+            </a>
+          </li>
+          <li>
+            <a href="/time-table">
+              <i class="bi bi-circle"></i><span>Time Table</span>
+            </a>
+          </li>
+
+        </ul>
+      </li><!-- End Components Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav1" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Student Account's</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/student">
+              <i class="bi bi-circle"></i><span>Student Registration</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admitstudent">
+              <i class="bi bi-circle"></i><span>Active Student</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <!-- End Charts Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-gem"></i><span>Teachers Account's</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a href="/teacher">
+              <i class="bi bi-circle"></i><span>Teacher Registration</span>
+            </a>
+          </li>
+          <li>
+            <a href="/active-teacher">
+              <i class="bi bi-circle"></i><span>Active Teacher</span>
+            </a>
+          </li>
+
+        </ul>
+      </li><!-- End Icons Nav -->
+
+     <!-- End Icons Nav -->
+
+      <li class="nav-heading">Pages</li>
+
+     <!-- End Profile Page Nav -->
+
+
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/admin-detail">
+          <i class="bi bi-card-list"></i>
+          <span>Profile</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+
+      <% } %>
+
+        <!-- ##################################################################################### -->
+        <!--WHEN Student Login -->
+        <!-- ##################################################################################### -->
+        <% if(session.role==3){ %>
+
+          <li class="nav-item">
+            <a class="nav-link " href="/Student-detail">
+              <i class="bi bi-grid"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          
+
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-menu-button-wide"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+              <li>
+                <a href="/student_att">
+                  <i class="bi bi-circle"></i><span>Attendance</span>
+                </a>
+              </li>
+              <li>
+                <a href="/pay-fees">
+                  <i class="bi bi-circle"></i><span>Fees</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- End Components Nav -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="/class-student-view">
+              <i class="bi bi-people"></i>
+              <span>View Friend</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="/student-time-table">
+              <i class="bi bi-card-list"></i>
+              <span>Time Table</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="/studentlogout">
+              <i class="bi bi-person"></i>
+              <span>logout</span>
+            </a>
+          </li>
+
+          
+
+          <% } %>
+            <!-- ##################################################################################### -->
+            <!--WHEN Teacher Login -->
+            <!-- ##################################################################################### -->
+            <% if(session.role==2){ %>
+
+              <li class="nav-item">
+                <a class="nav-link collapsed" href="/Teacher-detail">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link collapsed" href="/class-student-view">
+                  <i class="bi bi-people"></i>
+                  <span>Student's List</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                  <i class="bi bi-menu-button-wide"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                  
+                  <li>
+                    <a href="/student_att_mark">
+                      <i class="bi bi-circle"></i><span>Class Attendance</span>
+                    </a>
+                  </li>
+                  <li>
+                  </li>
+                </ul>
+              </li><!-- End Components Nav -->
+
+              <li class="nav-item">
+                <a class="nav-link collapsed" href="/teacherlogout">
+                  <i class="bi bi-person"></i>
+                  <span>logout</span>
+                </a>
+              </li>
+              <% } %>
+
+
+  </ul>
+
+</aside><!-- End Sidebar-->

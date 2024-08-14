@@ -1,0 +1,230 @@
+<%- include('includes/header') %>
+    <!-- ======= Sidebar ======= -->
+    <%- include('includes/sidebar') %>
+        <main id="main" class="main">
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Add Classes Button and Modal -->
+                    <div class="row mb-3">
+                        <div class="col-12 pt-3">
+                            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                data-bs-target="#addModal">
+                                Add Session
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add Class Modal -->
+                    <div class="modal fade" id="addModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add More Session</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="post" action="/add_session">
+                                    <div class="modal-body">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Session</label>
+                                            <select class="form-control" name="session_name">
+                                                <option value="2010-2011">2010-2011</option>
+                                                <option value="2011-2012">2011-2012</option>
+                                                <option value="2012-2013">2012-2013</option>
+                                                <option value="2013-2014">2013-2014</option>
+                                                <option value="2014-2015">2014-2015</option>
+                                                <option value="2015-2016">2015-2016</option>
+                                                <option value="2016-2017">2016-2017</option>
+                                                <option value="2017-2018">2017-2018</option>
+                                                <option value="2018-2019">2018-2019</option>
+                                                <option value="2019-2020">2019-2020</option>
+                                                <option value="2020-2021">2020-2021</option>
+                                                <option value="2021-2022">2021-2022</option>
+                                                <option value="2022-2023">2022-2023</option>
+                                                <option value="2023-2024">2023-2024</option>
+                                                <option value="2024-2025">2024-2025</option>
+                                                <option value="2025-2026">2025-2026</option>
+                                                <option value="2026-2027">2026-2027</option>
+                                                <option value="2027-2028">2027-2028</option>
+                                                <option value="2028-2029">2028-2029</option>
+                                                <option value="2029-2030">2029-2030</option>
+                                                <option value="2030-2031">2030-2031</option>
+                                                <option value="2031-2032">2031-2032</option>
+                                                <option value="2032-2033">2032-2033</option>
+                                                <option value="2033-2034">2033-2034</option>
+                                                <option value="2034-2035">2034-2035</option>
+                                                <option value="2035-2036">2035-2036</option>
+                                                <option value="2036-2037">2036-2037</option>
+                                                <option value="2037-2038">2037-2038</option>
+                                                <option value="2038-2039">2038-2039</option>
+                                                <option value="2039-2040">2039-2040</option>
+                                                <option value="2040-2041">2040-2041</option>
+                                                <option value="2041-2042">2041-2042</option>
+                                                <option value="2042-2043">2042-2043</option>
+                                                <option value="2043-2044">2043-2044</option>
+                                                <option value="2044-2045">2044-2045</option>
+                                                <option value="2045-2046">2045-2046</option>
+                                                <option value="2046-2047">2046-2047</option>
+                                                <option value="2047-2048">2047-2048</option>
+                                                <option value="2048-2049">2048-2049</option>
+                                                <option value="2049-2050">2049-2050</option>
+                                                <option value="2050-2051">2050-2051</option>
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Class Listing Table -->
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(data.length> 0) { %>
+                                    <% data.forEach(function(c, index) { %>
+                                        <tr>
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <%= c.session_name %>
+                                            </td>
+                                            <td>
+                                                <!-- HTML with EJS for dynamic class editing -->
+
+                                                <div class="filter">
+                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                            class="bi bi-three-dots"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editsessionModal<%= c.id %>">Edit/View</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal<%= c.id %>">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-- Delete Modal -->
+                                                <div class="modal fade" id="exampleModal<%= c.id %>" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalLabel<%= c.id %>"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-footer">
+                                                                <span style="margin-right: 100px;"><b>Do You want to
+                                                                        Delete This ?</b></span>
+                                                                <a href="/session" type="button"
+                                                                    class="btn btn-secondary">No</a>
+                                                                <a href="deletesession?id=<%= c.id %>" type="button"
+                                                                    class="btn btn-danger">Yes</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Edit Class Modal -->
+                                                <div class="modal fade" id="editsessionModal<%= c.id %>" tabindex="-1"  >
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                          
+
+
+                                                            <form method="post" action="/updatesession">
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" value="<%= c.id %>" />
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Session</label>
+                                                                        <select class="form-control" name="session_name" >
+                                                                            <option value="<%= c.session_name %>"><%= c.session_name %></option>
+                                                                            <option value="2010-2011">2010-2011</option>
+                                                                            <option value="2011-2012">2011-2012</option>
+                                                                            <option value="2012-2013">2012-2013</option>
+                                                                            <option value="2013-2014">2013-2014</option>
+                                                                            <option value="2014-2015">2014-2015</option>
+                                                                            <option value="2015-2016">2015-2016</option>
+                                                                            <option value="2016-2017">2016-2017</option>
+                                                                            <option value="2017-2018">2017-2018</option>
+                                                                            <option value="2018-2019">2018-2019</option>
+                                                                            <option value="2019-2020">2019-2020</option>
+                                                                            <option value="2020-2021">2020-2021</option>
+                                                                            <option value="2021-2022">2021-2022</option>
+                                                                            <option value="2022-2023">2022-2023</option>
+                                                                            <option value="2023-2024">2023-2024</option>
+                                                                            <option value="2024-2025">2024-2025</option>
+                                                                            <option value="2025-2026">2025-2026</option>
+                                                                            <option value="2026-2027">2026-2027</option>
+                                                                            <option value="2027-2028">2027-2028</option>
+                                                                            <option value="2028-2029">2028-2029</option>
+                                                                            <option value="2029-2030">2029-2030</option>
+                                                                            <option value="2030-2031">2030-2031</option>
+                                                                            <option value="2031-2032">2031-2032</option>
+                                                                            <option value="2032-2033">2032-2033</option>
+                                                                            <option value="2033-2034">2033-2034</option>
+                                                                            <option value="2034-2035">2034-2035</option>
+                                                                            <option value="2035-2036">2035-2036</option>
+                                                                            <option value="2036-2037">2036-2037</option>
+                                                                            <option value="2037-2038">2037-2038</option>
+                                                                            <option value="2038-2039">2038-2039</option>
+                                                                            <option value="2039-2040">2039-2040</option>
+                                                                            <option value="2040-2041">2040-2041</option>
+                                                                            <option value="2041-2042">2041-2042</option>
+                                                                            <option value="2042-2043">2042-2043</option>
+                                                                            <option value="2043-2044">2043-2044</option>
+                                                                            <option value="2044-2045">2044-2045</option>
+                                                                            <option value="2045-2046">2045-2046</option>
+                                                                            <option value="2046-2047">2046-2047</option>
+                                                                            <option value="2047-2048">2047-2048</option>
+                                                                            <option value="2048-2049">2048-2049</option>
+                                                                            <option value="2049-2050">2049-2050</option>
+                                                                            <option value="2050-2051">2050-2051</option>
+                                                                          </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Subject found.</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End #main -->
+
+
+
+        <!-- ======= Footer ======= -->
+        <%- include('includes/footer') %>

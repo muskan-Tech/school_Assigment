@@ -1,0 +1,207 @@
+<%- include('includes/header') %>
+  <!-- ======= Sidebar ======= -->
+  <%- include('includes/sidebar') %>
+    <main id="main" class="main">
+
+      <div class="card">
+        <div class="card-body">
+          <!-- Add Classes Button and Modal -->
+          <div class="row mb-3">
+            <div class="col-12 pt-3">
+              <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addModal">
+                Add Fees
+              </button>
+            </div>
+          </div>
+
+          <!-- Add Class Modal -->
+          <div class="modal fade" id="addModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add Fees</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/add_fees">
+                  <div class="modal-body">
+                    <label class="form-label">Class Name <b>*</b></label>
+                    <select name="class_id" class="form-control" required>
+                      <% if(classess.length> 0) { %>
+                        <% classess.forEach(function(c) { %>
+                          <option value="<%= c.id %>">
+                            <%= c.class_name %> <%= c.section %>
+                          </option>
+                          <% }) %>
+                            <% } else { %>
+                              <option value="">First Add
+                                Your School Session
+                              </option>
+                              <% } %>
+                    </select>
+                    <div class="mb-3">
+                      <label class="form-label">Fees <b>*</b></label>
+                      <input type="number" name="fees" class="form-control" required>
+                    </div>
+                    <label class="form-label">Session <b>*</b></label>
+                    <select name="session_id" class="form-control" required>
+                      <% if(sess.length> 0) { %>
+                        <% sess.forEach(function(c) { %>
+                          <option value="<%= c.id %>">
+                            <%= c.session_name %>
+                          </option>
+                          <% }) %>
+                            <% } else { %>
+                              <option value="">First Add
+                                Your School Session
+                              </option>
+                              <% } %>
+                    </select>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Listing Table -->
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Class Name</th>
+                  <th scope="col">Fees</th>
+                  <th scope="col">Session</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(data.length> 0) { %>
+                  <% data.forEach(function(c, index) { %>
+                    <tr>
+                      <td>
+                        <%= index + 1 %>
+                      </td>
+                      <td>
+                        <%= c.class_name %> <%= c.section %>
+                      </td>
+                      <td>
+                        <%= c.fees %>
+                      </td>
+                      <td>
+                        <%= c.session_name %>
+                      </td>
+                      <td>
+                        <!-- HTML with EJS for dynamic class editing -->
+
+                        <div class="filter">
+                          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li>
+                              <a class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#editfeesModal<%= c.id %>">Edit/View</a>
+                            </li>
+                            <li>
+                              <a class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal<%= c.id %>">Delete</a>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="exampleModal<%= c.id %>" tabindex="-1"  >
+                          <div class="modal-dialog" >
+                            <div class="modal-content">
+                              <div class="modal-footer">
+                                <span style="margin-right: 100px;"><b>Do You want to Delete This ?</b></span>
+                                <a href="/fees" type="button" class="btn btn-secondary">No</a>
+                                <a href="deletefees?id=<%= c.id %>" type="button" class="btn btn-danger">Yes</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Edit Class Modal -->
+                 
+
+
+
+
+                     <div class="modal fade" id="editfeesModal<%= c.id %>" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">EDit Fees</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <form method="post" action="/updatefees">
+                            <div class="modal-body">
+                              <input type="hidden" name="id" value="<%= c.id %>" class="form-control" required>
+                                <label class="form-label">Class Name <b></b></label>
+                                <select name="class_id" class="form-control" required>
+                                    <% if(classess.length> 0) { %>
+                                        <option value="<%= c.class_id %>">
+                                            <%= c.class_name %>  <%= c.section %>
+                                        </option>
+                                        <% classess.forEach(function(c) { %>
+                                            <option value="<%= c.id %>">
+                                                <%= c.class_name %>
+                                                    <%= c.section %>
+                                            </option>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <option value="">First Add Your School Class</option>
+                                                    <% } %>
+                                </select>
+                              <div class="mb-3">
+                                <label class="form-label">Fees<b>*</b></label>
+                                <input type="text" name="fees" value="<%= c.fees %>" class="form-control" required>
+                              </div>
+                              <label class="form-label">Session <b>*</b></label>
+                              <select name="session_id" class="form-control" required>
+                                <% if(sess.length> 0) { %>
+                                  <option value="<%= c.session_id %>"><%= c.session_name %></option>
+                                  <% sess.forEach(function(session) { %>
+                                    <option value="<%= session.id %>">
+                                      <%= session.session_name %>
+                                    </option>
+                                    <% }) %>
+                                      <% } else { %>
+                                        <option value="">First Add
+                                          Your School Session
+                                        </option>
+                                        <% } %>
+                              </select>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                     
+
+                      </td>
+                    </tr>
+                    <% }); %>
+                      <% } else { %>
+                        <tr>
+                          <td colspan="6" class="text-center">No classes found.</td>
+                        </tr>
+                        <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main><!-- End #main -->
+
+
+
+    <!-- ======= Footer ======= -->
+    <%- include('includes/footer') %>

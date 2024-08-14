@@ -1,0 +1,228 @@
+<%- include('includes/header') %>
+    <!-- ======= Sidebar ======= -->
+    <%- include('includes/sidebar') %>
+        <main id="main" class="main">
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Add Classes Button and Modal -->
+                    <div class="row mb-3">
+                        <div class="col-12 pt-3">
+                            <% if (session.user_role==0){ %>
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#addModal">
+                                    Add Time Table
+                                </button>
+                                <% } %>
+                        </div>
+                    </div>
+                    <!-- Add Class Modal -->
+                    <div class="modal fade" id="addModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Time Table</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <form method="post" action="/add-timeTable" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Class Name</label>
+                                            <select name="class_id" class="form-control" required>
+                                                <% if(class_data.length> 0) { %>
+                                                    <% class_data.forEach(function(c) { %>
+                                                        <option value="<%= c.id %>">
+                                                            <%= c.class_name %>
+                                                                <%= c.section %>
+                                                        </option>
+                                                        <% }) %>
+                                                            <% } else { %>
+                                                                <option value="">First Add Your School Class</option>
+                                                                <% } %>
+                                            </select>
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Time Table</label>
+                                            <input type="file" id="table" name="table" class="form-control" accept=".jpg, .jpeg, .png" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Class Listing Table -->
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">class Name</th>
+                                    <th scope="col">Time Table</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(data.length> 0) { %>
+                                    <% data.forEach(function(c, index) { %>
+                                        <tr>
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <%= c.class_name %>
+                                                    <%= c.section %>
+                                            </td>
+                                            <td>
+                                                <% if(c.table) { %>
+                                                    <!-- Thumbnail image -->
+                                                    <a href="#" data-toggle="modal"
+                                                        data-target="#imageModal-<%= c.id %>">
+                                                        <img src="<%= c.table %>" width="130" height="130"
+                                                            class="rounded pt-2" alt="Thumbnail Image">
+                                                    </a>
+
+                                                    <!-- Bootstrap Modal -->
+                                                    <div class="modal fade" id="imageModal-<%= c.id %>" tabindex="-1"
+                                                        role="dialog" aria-labelledby="imageModalLabel-<%= c.id %>"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 style="color: rgb(244, 154, 20);"
+                                                                        class="modal-title"
+                                                                        id="imageModalLabel-<%= c.id %>">Full Time Table
+                                                                    </h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <img src="<%= c.table %>" class="img-fluid"
+                                                                        width="100%" alt="Full Image">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } else { %>
+                                                        <img src="/assets/img/images.png" width="130" height="130"
+                                                            style="margin-left: 16%;" class="rounded pt-2"
+                                                            id="profileImage">
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <div class="filter">
+                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                            class="bi bi-three-dots"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editTimeTable<%= c.id %>">Edit/View</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal<%= c.id %>">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- Delete Modal -->
+                                                <div class="modal fade" id="exampleModal<%= c.id %>" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-footer">
+                                                                <span style="margin-right: 100px;"><b>Do You want
+                                                                        toDelete This ?</b></span>
+                                                                <a href="/time-table" type="button"
+                                                                    class="btn btn-secondary">No</a>
+                                                                <a href="delete-TimeTable?id=<%= c.id %>" type="button"
+                                                                    class="btn btn-danger">Yes</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- ########################################################################################################################################### -->
+
+                                                <!-- Edit Class Modal -->
+                                                <div class="modal fade" id="editTimeTable<%= c.id %>"
+                                                    tabindex="-1" role="dialog"
+                                                    aria-labelledby="editClassModalLabel<%= c.id %>" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Time Table</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+
+
+
+                                                            <form method="post" action="/edit-TimeTable"
+                                                                enctype="multipart/form-data">
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <input type="hidden" name="id" value="<%= c.id %>">
+
+                                                                    <label class="form-label">Class Name</label>
+                                                                    <select name="class_id" class="form-control" required>
+                                                                        <% if(class_data.length> 0) { %>
+                                                                            <option value="<%= c.class_id %>"> <%= c.class_name %> <%= c.section %> </option>
+                                                                            <% class_data.forEach(function(c) { %>
+                                                                                <option value="<%= c.id %>"> <%= c.class_name %> <%= c.section %>
+                                                                                </option>
+                                                                                <% }) %>
+                                                                                    <% } else { %>
+                                                                                        <option value="">First Add Your School Class</option>
+                                                                                        <% } %>
+                                                                    </select>
+
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Time Table</label>
+                                                                        <input type="file" id="table" name="table" class="form-control" accept=".jpg, .jpeg, .png" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Time Table found.</td>
+                                                </tr>
+                                                <% } %>
+                                                    <td>
+
+                                                    </td>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End #main -->
+
+
+
+
+        <!-- ======= Footer ======= -->
+        <%- include('includes/footer') %>

@@ -1,0 +1,269 @@
+<%- include('includes/header') %>
+<!-- ======= Sidebar ======= -->
+<%- include('includes/sidebar') %>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <% if(data.length > 0) { %>
+                    <% data.forEach(function(c, index) { %>
+                        <li class="breadcrumb-item"><%= c.school_name %></li>
+                    <% }); %>
+                <% } %>
+                <li class="breadcrumb-item active">Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4 col-lg-6 col-md-12">
+
+
+                <div class="card">
+                    <div class="card-body text-center">
+                        <form action="/admin-pic-upload" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="<%= data[0].id %>">
+                            <div class="text-center">
+                                <label for="imageInput" class="image-upload-label">
+                                    <% if(data[0].profile_photo) { %>
+                                        <img src="<%= data[0].profile_photo %>" class="rounded-circle pt-2 img-fluid" id="profileImage" style="width: 200px; height: 200px; object-fit: cover;">
+                                    <% } else { %>
+                                        <img src="/assets/img/no.jpeg" class="rounded-circle pt-2 img-fluid" id="profileImage" style="width: 200px; height: 200px; object-fit: cover;">
+                                    <% } %>
+                                </label>
+                            </div>
+                            <input type="file" id="imageInput" name="profile_photo" class="form-control" accept="image/*" style="display: none;" required>
+                            <div class="text-center pb-5 mt-1">
+                                <button type="submit" class="bi bi-camera">Save</button>
+                            </div>
+                        </form>
+                        
+
+                        <% if(data.length> 0) { %>
+                            <% data.forEach(function(c, index) { %>
+                        <h4 class="mt-3" style="color: rgb(38, 4, 83);">
+                            <b><%= data[0].school_name %></b>
+                        </h4>
+                        <h3 style="color:rgba(113, 64, 3, 0.901);">
+                            <b><%= data[0].phone %></b>
+                        </h3>
+                        <h3 style="color:rgb(6, 125, 91);">
+                            <b><%= data[0].email %></b>
+                        </h3>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xl-8 col-lg-6 col-md-12">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                            </li>
+                           
+                        </ul>
+                        <div class="tab-content pt-2">
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                <h5 class="card-title">Profile Details</h5>
+                                <form method="post" action="updateAdminProfile">
+                                    <input type="hidden" name="id" value="<%= data[0].id %>">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" name="school_name" value="<%= data[0].school_name %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email" value="<%= data[0].email %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="phone" value="<%= data[0].phone %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>School Code</label>
+                                            <input type="text" class="form-control" name="school_code" value="<%= data[0].school_code %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" name="address" value="<%= data[0].address %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>District</label>
+                                            <input type="text" class="form-control" name="district" value="<%= data[0].district %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Pincode</label>
+                                            <input type="text" class="form-control" name="pincode" value="<%= data[0].pincode %>" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>State</label>
+                                            <input type="text" class="form-control" name="state" value="<%= data[0].state %>" required>
+                                        </div>
+                                        <div class="text-center pt-3">
+                                            <button type="submit" class="btn btn-primary">Save Change</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade pt-3" id="profile-change-password">
+                                <!-- Change Password Form -->
+                                <form method="post" action="/adminEditPassword">
+                                    <input type="hidden" name="id" value="<%= session.user_id %>" />
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="mb-3">
+                                                <label for="currentPassword" class="form-label">Current Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" name="current_password" class="form-control" id="currentPassword" required>
+                                                    <button class="btn" type="button" id="toggleCurrentPassword">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="newPassword" class="form-label">New Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" name="password" class="form-control" id="newPassword" required>
+                                                    <button class="btn" type="button" id="toggleNewPassword">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="password-strength-feedback1 text-danger"></div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" name="confirmpassword" class="form-control" id="confirmPassword" required>
+                                                    <button class="btn" type="button" id="toggleConfirmPassword">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div id="passwordError" class="invalid-feedback" style="display: none;">Passwords do not match!</div>
+                                            </div>
+                                            <div class="text-center pt-3">
+                                                <button type="submit" class="btn btn-primary">Update Password</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 d-flex align-items-center">
+                                            <img src="assets/img/key.webp" alt="Image" class="img-fluid w-100">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <% }); %>
+                    <% } %>
+            </section>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Password fields
+                    const currentPasswordInput = document.getElementById('currentPassword');
+                    const newPasswordInput = document.getElementById('newPassword');
+                    const confirmPasswordInput = document.getElementById('confirmPassword');
+                    
+                    // Toggle buttons
+                    const toggleCurrentPasswordButton = document.getElementById('toggleCurrentPassword');
+                    const toggleNewPasswordButton = document.getElementById('toggleNewPassword');
+                    const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
+            
+                    // Password strength feedback
+                    const passwordStrengthFeedback = document.querySelector('.password-strength-feedback1');
+                    
+                    // Password error message
+                    const passwordError = document.getElementById('passwordError');
+                    
+                    // Toggle password visibility function
+                    function togglePasswordVisibility(input, button) {
+                        button.addEventListener('click', function () {
+                            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                            input.setAttribute('type', type);
+                            button.querySelector('i').classList.toggle('bi-eye');
+                            button.querySelector('i').classList.toggle('bi-eye-slash');
+                        });
+                    }
+                    
+                    // Initialize toggle password visibility
+                    togglePasswordVisibility(currentPasswordInput, toggleCurrentPasswordButton);
+                    togglePasswordVisibility(newPasswordInput, toggleNewPasswordButton);
+                    togglePasswordVisibility(confirmPasswordInput, toggleConfirmPasswordButton);
+                    
+                    // Validate password strength
+                    newPasswordInput.addEventListener('input', function () {
+                        const password = newPasswordInput.value;
+                        if (password.length >= 6 && password.length <= 10) {
+                            passwordStrengthFeedback.textContent = '';
+                        } else {
+                            passwordStrengthFeedback.textContent = 'Password should be between 6 and 10 characters';
+                        }
+                    });
+                    
+                    // Validate password match
+                    function validatePasswordMatch() {
+                        if (newPasswordInput.value !== confirmPasswordInput.value) {
+                            confirmPasswordInput.setCustomValidity("Passwords do not match");
+                            passwordError.style.display = "block";
+                        } else {
+                            confirmPasswordInput.setCustomValidity("");
+                            passwordError.style.display = "none";
+                        }
+                    }
+            
+                    newPasswordInput.addEventListener('input', validatePasswordMatch);
+                    confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+                });
+            </script>
+            <!-- //start like whatsapp Interface photo uploading -->
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const imageInput = document.getElementById('imageInput');
+                    const profileImage = document.getElementById('profileImage');
+            
+                    // Click on the image triggers the file input
+                    profileImage.addEventListener('click', function () {
+                        imageInput.click();
+                    });
+            
+                    // Preview the selected image
+                    imageInput.addEventListener('change', function (event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                profileImage.src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                });
+            </script>
+            
+<!-- //END like whatsapp Interface photo uploading -->
+            
+        </main><!-- End #main -->
+
+        <%- include('includes/footer') %>

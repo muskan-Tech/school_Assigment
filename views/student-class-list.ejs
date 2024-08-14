@@ -1,0 +1,59 @@
+<%- include('includes/header') %>
+  <!-- ======= Sidebar ======= -->
+  <%- include('includes/sidebar') %>
+    <main id="main" class="main">
+      <h1>Student Class List</h1>
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Class Listing Table -->
+          <div class="table-responsive">
+            <table class="table ">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Student Name</th>
+                  <th scope="col">Roll no</th>
+                  <th scope="col">Class Name</th>
+                  <th scope="col">Section</th>
+                </tr>
+              </thead>
+              <% if(data1.length> 0) { %>
+                <tbody>
+                  <% data1.forEach(function(c, index) { %>
+                    <tr>
+                      <td>
+                        <%= index + 1 %>
+                      </td>
+                      <td>
+                        <%= c.full_name %>
+                      </td>
+                      <td>
+                        <%= c.roll_no %>
+                      </td>
+                      <td>
+                        <%= c.class_name %>
+                      </td>
+                      <td>
+                        <%= c.section %>
+                      </td>
+
+                    </tr>
+                    <% }); %>
+                </tbody>
+                <% } else { %>
+                <h1>No Student Found</h1>
+                  <%  } %>
+
+                  
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </main><!-- End #main -->
+
+
+
+    <!-- ======= Footer ======= -->
+    <%- include('includes/footer') %>

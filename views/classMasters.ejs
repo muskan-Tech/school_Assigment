@@ -1,0 +1,271 @@
+<%- include('includes/header') %>
+  <!-- ======= Sidebar ======= -->
+  <%- include('includes/sidebar') %>
+    <main id="main" class="main">
+
+      <div class="card">
+        <div class="card-body">
+          <!-- Add Classes Button and Modal -->
+          <div class="row mb-3">
+            <div class="col-12 pt-3">
+              <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addModal">
+                Add Class
+              </button>
+            </div>
+          </div>
+
+          <!-- Add Class Modal -->
+          <div class="modal fade" id="addModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add More Class</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/add_class">
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label class="form-label">Class Name <b>*</b></label>
+                      <select class="form-control" id="className" name="class_name">
+                        <option value="Play Ground">Play Ground</option>
+                        <option value="Kindergarten">Kindergarten</option>
+                        <option value="Under Kindergarten">Under Kindergarten</option>
+                        <option value="Lower Kindergarten">Lower Kindergarten</option>
+                        <option value="1st">1st</option>
+                        <option value="2nd">2nd</option>
+                        <option value="3rd">3rd</option>
+                        <option value="4th">4th</option>
+                        <option value="5th">5th</option>
+                        <option value="6th">6th</option>
+                        <option value="7th">7th</option>
+                        <option value="8th">8th</option>
+                        <option value="9th">9th</option>
+                        <option value="10th">10th</option>
+                        <option value="11th">11th</option>
+                        <option value="12th">12th</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Section <b>*</b></label>
+                      <select class="form-control" id="className" name="section">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                        <option value="I">I</option>
+                        <option value="J">J</option>
+                        <option value="K">K</option>
+                        <option value="L">L</option>
+                        <option value="M">M</option>
+                        <option value="N">N</option>
+                        <option value="O">O</option>
+                        <option value="P">P</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">No. of Students</label>
+                      <input type="number" name="no_of_student" class="form-control">
+                    </div>
+
+                    <label class="form-label">Session <b>*</b></label>
+                    <select name="session_id" class="form-control" required>
+                      <% if(sess.length> 0) { %>
+                        <% sess.forEach(function(c) { %>
+                          <option value="<%= c.id %>">
+                            <%= c.session_name %>
+                          </option>
+                          <% }) %>
+                            <% } else { %>
+                              <option value="">First Add
+                                Your School Session
+                              </option>
+                              <% } %>
+                    </select>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Class Listing Table -->
+          <div class="table-responsive">
+            <table class="table ">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Class Name</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">No. of Students</th>
+                  <th scope="col">Session</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(data.length> 0) { %>
+                  <% data.forEach(function(c, index) { %>
+                    <tr>
+                      <td>
+                        <%= index + 1 %>
+                      </td>
+                      <td>
+                        <%= c.class_name %>
+                      </td>
+                      <td>
+                        <%= c.section %>
+                      </td>
+                      <td>
+                        <%= c.no_of_student %>
+                      </td>
+                      <td>
+                        <%= c.session_name %>
+                      </td>
+                      <td>
+                        <!-- HTML with EJS for dynamic class editing -->
+
+                        <div class="filter">
+                          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li>
+                              <a class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#editclassModal<%= c.id %>">Edit/View</a>
+                            </li>
+                            <li>
+                              <a class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal<%= c.id %>">Delete</a>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="exampleModal<%= c.id %>" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-footer">
+                                <span style="margin-right: 100px;"><b>Do You want to Delete This ?</b></span>
+                                <a href="/class" type="button" class="btn btn-secondary">No</a>
+                                <a href="deleteclass?id=<%= c.id %>" type="button" class="btn btn-danger">Yes</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Edit Class Modal -->
+
+
+
+
+
+                        <div class="modal fade" id="editclassModal<%= c.id %>" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Add More Class</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                  aria-label="Close"></button>
+                              </div>
+                              <form method="post" action="/updateclass">
+                                <div class="modal-body">
+                                  <div class="mb-3">
+                                    <input type="hidden" name="id" value="<%= c.id %>" />
+                                    <label class="form-label">Class Name <b></b></label>
+                                    <select class="form-control" id="className" name="class_name"
+                                      value="<%= c.class_name %>">
+                                      <option value="Play Ground">Play Ground</option>
+                                      <option value="Kindergarten">Kindergarten</option>
+                                      <option value="Under Kindergarten">Under Kindergarten</option>
+                                      <option value="Lower Kindergarten">Lower Kindergarten</option>
+                                      <option value="1st">1st</option>
+                                      <option value="2nd">2nd</option>
+                                      <option value="3rd">3rd</option>
+                                      <option value="4th">4th</option>
+                                      <option value="5th">5th</option>
+                                      <option value="6th">6th</option>
+                                      <option value="7th">7th</option>
+                                      <option value="8th">8th</option>
+                                      <option value="9th">9th</option>
+                                      <option value="10th">10th</option>
+                                      <option value="11th">11th</option>
+                                      <option value="12th">12th</option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label class="form-label">Section <b>*</b></label>
+                                    <select class="form-control" id="className" name="section" value="<%= c.section %>">
+                                      <option value="A">A</option>
+                                      <option value="B">B</option>
+                                      <option value="C">C</option>
+                                      <option value="D">D</option>
+                                      <option value="E">E</option>
+                                      <option value="F">F</option>
+                                      <option value="G">G</option>
+                                      <option value="H">H</option>
+                                      <option value="I">I</option>
+                                      <option value="J">J</option>
+                                      <option value="K">K</option>
+                                      <option value="L">L</option>
+                                      <option value="M">M</option>
+                                      <option value="N">N</option>
+                                      <option value="O">O</option>
+                                      <option value="P">P</option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label class="form-label">No. of Students</label>
+                                    <input type="number" name="no_of_student" value="<%= c.no_of_student %>"
+                                      class="form-control">
+                                  </div>
+                                  <label class="form-label">Session <b>*</b></label>
+                                  <select name="session_id" class="form-control" required>
+                                    <% if(sess.length> 0) { %>
+                                      <option value="<%= c.session_id %>">
+                                        <%= c.session_name %>
+                                      </option>
+                                      <% sess.forEach(function(session) { %>
+                                        <option value="<%= session.id %>">
+                                          <%= session.session_name %>
+                                        </option>
+                                        <% }) %>
+                                          <% } else { %>
+                                            <option value="">First Add
+                                              Your School Session
+                                            </option>
+                                            <% } %>
+                                  </select>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </td>
+                    </tr>
+                    <% }); %>
+                      <% } else { %>
+                        <tr>
+                          <td colspan="6" class="text-center">No classes found.</td>
+                        </tr>
+                        <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main><!-- End #main -->
+
+
+
+    <!-- ======= Footer ======= -->
+    <%- include('includes/footer') %>

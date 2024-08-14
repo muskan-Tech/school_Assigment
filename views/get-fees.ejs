@@ -1,0 +1,292 @@
+<%- include('includes/header') %>
+    <!-- ======= Sidebar ======= -->
+    <%- include('includes/sidebar') %>
+
+        <main id="main" class="main">
+
+            <div class="pagetitle">
+                <h1>Fees</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item">Student</li>
+                        <li class="breadcrumb-item active">Fees</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+
+            <section class="section profile">
+                <div class="row">
+                    <div class="col-xl-12">
+
+                        <div class="card">
+                            <div class="card-body pt-3">
+                                <!-- Bordered Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered">
+
+                                    <li class="nav-item">
+                                        <button class="nav-link active" data-bs-toggle="tab"
+                                            data-bs-target="#profile-overview">Pending</button>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab"
+                                            data-bs-target="#profile-change-password">History</button>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content pt-2">
+
+                                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                        <h5 class="card-title">Fees Account</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Mode</th>
+                                                        <th scope="col">Transaction Id</th>
+                                                        <th scope="col">Bank Name</th>
+                                                        <th scope="col">Class NAme</th>
+                                                        <th scope="col">Amount</th>
+                                                        <th scope="col">Session</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Image</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <% if(data.length> 0) { %>
+                                                        <% data.forEach(function(c, index) { %>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <%= index + 1 %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= c.type %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= c.transaction_id %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= c.bank_name %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= c.class_name %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= c.amount %>
+                                                                </td>
+
+                                                                <td>
+                                                                    <%= c.session_name %>
+                                                                </td>
+                                                                <td>
+                                                                    <% let create_date=c.date %>
+                                                                        <%= create_date.getFullYear() + '-' + ('0' +
+                                                                            (create_date.getMonth() + 1)).slice(-2)
+                                                                            + '-' + ('0' +
+                                                                            create_date.getDate()).slice(-2) %>
+                                                                </td>
+                                                                <td>
+                                                                
+                                                <% if(c.screenshot) { %>
+                                                    <!-- Thumbnail image -->
+                                                    <a href="#" data-toggle="modal" data-target="#imageModal">
+                                                        <img src="<%= c.screenshot %>" width="130" height="130" class="rounded pt-2" alt="Thumbnail Image">
+                                                    </a>
+
+                                                    <!-- Bootstrap Modal -->
+                                                    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog"
+                                                        aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="imageModalLabel">Full
+                                                                        Image</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <img src="<%= c.screenshot %>" class="img-fluid"
+                                                                      width="100%"  alt="Full Image">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } else { %>
+                                                        <img src="/assets/img/images.png" width="130" height="130"
+                                                            style="margin-left: 16%;" class="rounded pt-2"
+                                                            id="profileImage">
+                                                        <% } %>
+                                                                    
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-secondary">Pending</button>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="filter">
+                                                                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                                          <li>
+                                                                            <a style="width: 100%;" class="btn btn-success" type="submit" href="succesfees?id=<%= c.id %>">Success</a>
+                                                                          </li>
+                                                                          <li class="pt-2">
+                                                                            <a  style="width: 100%;" class="btn btn-danger" type="submit" href="rejectfees?id=<%= c.id %>">Reject</a>
+                                                                          </li>
+                                                                        </ul>
+                                                                      </div>
+                                                                </td>
+
+                                                            </tr>
+                                                            <% }); %>
+                                                                <% } else { %>
+                                                                    <tr>
+                                                                        <td colspan="6" class="text-center">No classes
+                                                                            found.</td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade pt-3" id="profile-change-password">
+                                        <!-- Change Password Form -->
+                                        <form>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Mode</th>
+                                                            <th scope="col">Transaction Id</th>
+                                                            <th scope="col">Bank Name</th>
+                                                            <th scope="col">Class NAme</th>
+                                                            <th scope="col">Amount</th>
+                                                            <th scope="col">Session</th>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Image</th>
+                                                            <th scope="col">Status</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+    
+                                                        <% if(data2.length> 0) { %>
+                                                            <% data2.forEach(function(c, index) { %>
+    
+                                                                <tr>
+                                                                    <td>
+                                                                        <%= index + 1 %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= c.type %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= c.transaction_id %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= c.bank_name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= c.class_name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= c.amount %>
+                                                                    </td>
+    
+                                                                    <td>
+                                                                        <%= c.session_name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <% let create_date=c.date %>
+                                                                            <%= create_date.getFullYear() + '-' + ('0' +
+                                                                                (create_date.getMonth() + 1)).slice(-2)
+                                                                                + '-' + ('0' +
+                                                                                create_date.getDate()).slice(-2) %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="#" data-toggle="modal" data-target="#imageModal">
+                                                                            <img src="<%= c.screenshot %>" width="130" height="130" class="rounded pt-2" alt="Thumbnail Image">
+                                                                        </a>
+                    
+                                                                        <!-- Bootstrap Modal -->
+                                                                        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog"
+                                                                            aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="imageModalLabel">Full
+                                                                                            Image</h5>
+                                                                                        <button type="button" class="close"
+                                                                                            data-dismiss="modal" aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <img src="<%= c.screenshot %>" class="img-fluid"
+                                                                                          width="100%"  alt="Full Image">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><% if(c.status == 1){ %>
+                                                                        <button class="btn btn-success">Success</button>
+                                                                        <% } else if(c.status == 2){ %>
+                                                                        <button class="btn btn-danger">Reject</button>
+                                                                        <% } %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="filter">
+                                                                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                                              <li>
+                                                                                <a style="width: 100%;" class="btn btn-success" type="submit" href="succesfees?id=<%= c.id %>">Success</a>
+                                                                              </li>
+                                                                              <li class="pt-2">
+                                                                                <a  style="width: 100%;" class="btn btn-danger" type="submit" href="rejectfees?id=<%= c.id %>">Reject</a>
+                                                                              </li>
+                                                                            </ul>
+                                                                          </div>
+                                                                    </td>
+    
+                                                                </tr>
+                                                                <% }); %>
+                                                                    <% } else { %>
+                                                                        <tr>
+                                                                            <td colspan="6" class="text-center">No classes
+                                                                                found.</td>
+                                                                        </tr>
+                                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+    
+                                            </div>
+                                        </form><!-- End Change Password Form -->
+
+                                    </div>
+
+                                </div><!-- End Bordered Tabs -->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main><!-- End #main -->
+
+        <%- include('includes/footer') %>

@@ -1,0 +1,162 @@
+<%- include('includes/header.ejs') %>
+  <%- include('includes/sidebar.ejs') %>
+
+
+
+
+    <main id="main" class="main">
+      <% if(session.user_role==0){ %>
+
+        <div class="pagetitle">
+          <h1>Dashboard</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+          <div class="row">
+              <div class="col-sm-3 ">
+
+                <div class="card info-card customers-card">
+
+
+
+                  <div class="card-body">
+                    <h5 class="card-title">Student <span>| Active</span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-3">
+                        <% if(ActiveStudentData.length> 0) { %>
+                          <% ActiveStudentData.forEach(function(c, index) { %>
+                            <h6>
+                              <%= c.id %>
+                            </h6>
+                            <% });} %>
+
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div><!-- End Customers Card -->
+              <!-- Customers Card -->
+              <div class="col-sm-3 ">
+
+                <div class="card info-card customers-card">
+
+
+
+                  <div class="card-body">
+                    <h5 class="card-title">Student <span>| Pending</span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>
+                          <% if(InActiveStudent.length> 0) { %>
+                            <% InActiveStudent.forEach(function(c, index) { %>
+                              <h6>
+                                <%= c.id %>
+                              </h6>
+                              <% });} %>
+                        </h6>
+
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+
+              <!-- Sales Card -->
+
+
+              <!-- Customers Card -->
+              <div class="col-sm-3 ">
+
+                <div class="card info-card customers-card">
+
+
+
+                  <div class="card-body">
+                    <h5 class="card-title">Teacher <span>| Active</span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>
+                          <% if(ActiveTeacher.length> 0) { %>
+                            <% ActiveTeacher.forEach(function(c, index) { %>
+                              <h6>
+                                <%= c.id %>
+                              </h6>
+                              <% });} %>
+                        </h6>
+
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div><!-- End Customers Card -->
+              <!-- Customers Card -->
+              <div class="col-sm-3 ">
+
+                <div class="card info-card customers-card">
+
+
+                  <div class="card-body">
+                    <h5 class="card-title">Teacher <span>| Pending </span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>
+                          <% if(InActiveTeacher.length> 0) { %>
+                            <% InActiveTeacher.forEach(function(c, index) { %>
+                              <h6>
+                                <%= c.id %>
+                              </h6>
+                              <% });} %>
+                        </h6>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+          </div>
+
+        </section>
+      <% } else { %>
+          <script>
+              alert("Invalid URL found");
+              window.location.href = '/student-detail'; 
+          </script>
+      <% } %>
+      
+
+    </main><!-- End #main -->
+    <%- include('includes/footer.ejs') %>

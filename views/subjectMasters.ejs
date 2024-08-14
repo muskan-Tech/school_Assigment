@@ -1,0 +1,228 @@
+<%- include('includes/header') %>
+    <!-- ======= Sidebar ======= -->
+    <%- include('includes/sidebar') %>
+        <main id="main" class="main">
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Add Classes Button and Modal -->
+                    <div class="row mb-3">
+                        <div class="col-12 pt-3">
+                            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                data-bs-target="#addModal">
+                                Assign Teacher
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add Class Modal -->
+                    <div class="modal fade" id="addModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add More Subject</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="post" action="/add_subject">
+                                    <div class="modal-body">
+                                        <label class="form-label">Class Name</label>
+                                        <select name="class_id" class="form-control" required>
+                                            <% if(classess.length> 0) { %>
+                                                <% classess.forEach(function(c) { %>
+                                                    <option value="<%= c.id %>"><%= c.class_name %> <%= c.section %> </option>
+                                                    <% }) %>
+                                                        <% } else { %>
+                                                            <option value="">First Add Your School Class</option>
+                                                            <% } %>
+                                        </select>
+
+                                       
+                                        <label class="form-label">Teacher Name</label>
+                                        <select name="teacher_id" class="form-control">
+                                            <% if(Tech.length> 0) { %>
+                                                <option value="0">Select Teacher</option>
+                                                <% Tech.forEach(function(c) { %>
+                                                    <option value="<%= c.id %>">
+                                                        <%= c.full_name %>
+                                                    </option>
+                                                    <% }) %>
+                                                        <% } else { %>
+                                                            <option value="">No Teacher Found</option>
+                                                            <% } %>
+                                        </select>
+
+                                        <label class="form-label">Session</label>
+                                        <select name="session_id" class="form-control" required>
+                                            <% if(sess.length> 0) { %>
+                                                <% sess.forEach(function(c) { %>
+                                                    <option value="<%= c.id %>">
+                                                        <%= c.session_name %>
+                                                    </option>
+                                                    <% }) %>
+                                                        <% } else { %>
+                                                            <option value="">First Add Your School Session</option>
+                                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Class Listing Table -->
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Class Name</th>
+                                   
+                                    <th scope="col">Teacher Name</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(data.length> 0) { %>
+                                    <% data.forEach(function(c, index) { %>
+                                        <tr>
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td>
+                                                <%= c.class_name %>
+                                                    <%= c.section %>
+                                            </td>
+                                           
+                                            <td>
+                                                <% if (c.full_name) { %>
+                                                    <%= c.full_name %>
+                                                        <% } else { %>
+                                                            <span style="color:red"><b>No Teacher Assign</b></span>
+                                                            <% } %>
+
+                                            </td>
+                                            <td>
+                                                <%= c.session_name %>
+                                            </td>
+                                            <td>
+                                                <!-- HTML with EJS for dynamic class editing -->
+
+                                                <div class="filter">
+                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                            class="bi bi-three-dots"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editsubjectModal<%= c.id %>">Edit/View</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal<%= c.id %>">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-- Delete Modal -->
+                                                <div class="modal fade" id="exampleModal<%= c.id %>" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalLabel<%= c.id %>"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-footer">
+                                                                <span style="margin-right: 100px;"><b>Do You want to
+                                                                        Delete This ?</b></span>
+                                                                <a href="/subject" type="button"
+                                                                    class="btn btn-secondary">No</a>
+                                                                <a href="deletesubject?id=<%= c.id %>" type="button"
+                                                                    class="btn btn-danger">Yes</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                      
+
+                                                <!-- Edit Class Modal -->
+                                                <div class="modal fade" id="editsubjectModal<%= c.id %>" tabindex="-1" >
+                                                    <div class="modal-dialog" >
+                                                        <div class="modal-content">
+                                                           
+
+
+                                                            <form method="post" action="/updatesubject">
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" value="<%= c.id %>" />
+                                                                    <label class="form-label">Class Name</label>
+                                                                    <select name="class_id" class="form-control" required>
+                                                                        <% if(classess.length> 0) { %>
+                                                                            <option value="<%= c.class_id %>"> <%= c.class_name %> <%= c.section %> </option>
+                                                                            <% classess.forEach(function(c) { %>
+                                                                                <option value="<%= c.id %>"> <%= c.class_name %> <%= c.section %>
+                                                                                </option>
+                                                                                <% }) %>
+                                                                                    <% } else { %>
+                                                                                        <option value="">First Add Your School Class</option>
+                                                                                        <% } %>
+                                                                    </select>
+                            
+                                                                   
+                                                                    <label class="form-label">Teacher Name</label>
+                                                                    <select name="teacher_id" class="form-control">                                                                        <% if(Tech.length> 0) { %>
+                                                                            <option value="<%= c.teacher_id %>"><%= c.full_name %> </option>
+                                                                            <% Tech.forEach(function(c) { %>
+                                                                                <option value="<%= c.id %>"><%= c.full_name %> </option>
+                                                                                <% }) %>
+                                                                                    <% } else { %>
+                                                                                        <option value="">First Add Your School Teacher</option>
+                                                                                        <% } %>
+                                                                    </select>
+                            
+                                                                    <label class="form-label">Session</label>
+                                                                    <select name="session_id" class="form-control" required>
+                                                                        <% if(sess.length> 0) { %>
+                                                                            <option value="<%= c.session_id %>"> <%= c.session_name %> </option>
+                                                                            <% sess.forEach(function(c) { %>
+                                                                                <option value="<%= c.id %>"> <%= c.session_name %> </option>
+                                                                                <% }) %>
+                                                                                    <% } else { %>
+                                                                                        <option value="">First Add Your School Session</option>
+                                                                                        <% } %>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Subject found.</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main><!-- End #main -->
+
+
+
+        <!-- ======= Footer ======= -->
+        <%- include('includes/footer') %>

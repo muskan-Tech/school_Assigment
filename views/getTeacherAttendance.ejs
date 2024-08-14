@@ -1,0 +1,75 @@
+<%- include('includes/header') %>
+<!-- ======= Sidebar ======= -->
+<%- include('includes/sidebar') %>
+<style>
+    .card {
+        margin: 20px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    .table th {
+        background-color: #6e0505;
+        color: white;
+    }
+</style>
+
+<main id="main" class="main">
+    <div class="card">
+        <div class="card-body">
+            
+            <% if (data && data.length > 0) { %>
+            <!-- Class Listing Table -->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <% data.forEach(function(c, index) { %>
+                                <th scope="col">
+                                    <%= new Date(c.create_date).toISOString().slice(0, 10) %>
+                                </th>
+                            <% }); %>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td>
+                                <%= data[0].full_name %>
+                            </td>
+                            <% data.forEach(function(c, index) { %>
+                                <td>
+                                    <% if(c.status == 1) { %>
+                                        <span class="btn btn-success">Present</span>
+                                    <% } else { %>
+                                        <span class="btn btn-danger">Absent</span>
+                                    <% } %>
+                                </td>
+                            <% }); %>
+                            <% let count = data.filter(record => record.status === 1).length; %>
+                            <td>
+                                <%= count %>/<%= data.length %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <% } else if (typeof data !== 'undefined') { %>
+            <!-- No Data Found Message -->
+            <div class="alert alert-warning text-center" role="alert">
+                No Attendance found.
+            </div>
+            <% } %>
+        </div>
+    </div>
+</main>
+<%- include('includes/footer') %>

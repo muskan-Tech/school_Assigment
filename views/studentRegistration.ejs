@@ -1,0 +1,485 @@
+<%- include('includes/header') %>
+    <!-- ======= Sidebar ======= -->
+    <%- include('includes/sidebar') %>
+        <main id="main" class="main">
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Add Classes Button and Modal -->
+                    <div class="row mb-3">
+                        <div class="col-sm-8">
+                            <form method="post" action="/student">
+                                <div class="row">
+                                  <div class="col-sm-6 pt-2">
+                                    <input style="margin-left:10px" type="text" name="search" class="form-control"
+                                      placeholder="" />
+                                  </div>
+                                  <div style="margin-left: 5%;" class="col-sm-1 pt-2">
+                                    <input type="submit" name="sea" class="btn btn-info" value="search">
+                                  </div>
+                                </div>
+                              </form>
+                        </div>
+                        <div class="col-sm-4 pt-3">
+                            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                data-bs-target="#addModal">
+                                Add Student
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add Class Modal -->
+                    <div class="modal fade" id="addModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Students Detail</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="post" action="/add_student" enctype="multipart/form-data" >
+                                    <div class="modal-body">
+                                    <div class="row">
+                                        <div class="modal-body">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label class="form-label">Full Name <b>*</b></label>
+                                                        <input type="text" name="full_name" class="form-control"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Roll No</label>
+                                                        <input type="text" name="roll_no" class="form-control"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Email<b>*</b></label>
+                                                        <input type="email" name="email" class="form-control" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Phone</label>
+                                                        <input type="tel" name="phone" class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">DOB <b>*</b></label>
+                                                        <input type="date" name="dob" class="form-control" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Class Name</label>
+                                                        <select name="class_id" class="form-control" required>
+                                                            <% if(classess.length> 0) { %>
+                                                                <% classess.forEach(function(c) { %>
+                                                                    <option class="col-5" value="<%= c.id %>">
+                                                                        <%= c.class_name %>
+                                                                            <%= c.section %>
+                                                                    </option>
+                                                                    <% }) %>
+                                                                        <% } else { %>
+                                                                            <option value="">First Add
+                                                                                Your School Class
+                                                                            </option>
+                                                                            <% } %>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Adharcard No</label>
+                                                        <input type="number" name="adharcard_no" class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Adharcard Img</label>
+                                                        <input type="file" name="adharcard_img" class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Address <b>*</b></label>
+                                                        <input type="text" name="address" class="form-control" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">District <b>*</b></label>
+                                                        <input type="text" name="district" class="form-control"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+
+                                                   
+                                                    <div class="col-6">
+                                                        <label class="form-label">Pincode <b>*</b></label>
+                                                        <input type="text" name="pincode" class="form-control" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">State <b>*</b></label>
+                                                        <input type="text" name="state" class="form-control" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Father's Name <b>*</b></label>
+                                                        <input type="text" name="father_name" class="form-control"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Father's Email</label>
+                                                        <input type="email" name="father_email" class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Father's No <b>*</b></label>
+                                                        <input type="tel" name="father_no" class="form-control"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Mother's Name <b>*</b></label>
+                                                        <input type="text" name="mother_name" class="form-control"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Mother's Email</label>
+                                                        <input type="email" name="mother_email" class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Mother's No</label>
+                                                        <input type="tel" name="mother_no" class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Transfer Certificate</label>
+                                                        <input type="file" name="transfer_certificate_img"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label class="form-label">Medical Report Img</label>
+                                                        <input type="file" name="medical_report_img"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label class="form-label">Session</label>
+                                                        <select name="session_id" class="form-control" required>
+                                                            <% if(sess.length> 0) { %>
+                                                                <% sess.forEach(function(c) { %>
+                                                                    <option value="<%= c.id %>">
+                                                                        <%= c.session_name %>
+                                                                    </option>
+                                                                    <% }) %>
+                                                                        <% } else { %>
+                                                                            <option value="">First Add Your School
+                                                                                Session</option>
+                                                                            <% } %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Class Listing Table -->
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Student Name</th>
+                                    <th scope="col">Class Name</th>
+                                    <th scope="col">Roll No</th>
+                                    <th scope="col">DOB</th>
+                                    <th scope="col">Student Phone</th>
+                                    <th scope="col">Father Name</th>
+                                    <th scope="col">Father Phone</th> <!-- Corrected closing tag here -->
+                                    <th scope="col">Mother Name</th>
+                                    <th scope="col">Mother Phone</th>
+                                    <th scope="col">Pincode</th>
+                                    <th scope="col">District</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">Session</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% if(data.length> 0) { %>
+                                    <% data.forEach(function(c, index) { %>
+                                        <tr>
+                                            <td scope="row">
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td  >
+                                                <%= c.full_name %>
+                                            </td>
+                                            <td  >
+                                                <%= c.class_name %>
+                                                    <%= c.section %>
+                                            </td>
+                                            <td  >
+                                                <%= c.roll_no %>
+                                            </td>
+                                            <td  >
+                                                <% let dob=c.dob %>
+                                                    <%= dob.getFullYear() + '-' + ('0' + (dob.getMonth() + 1)).slice(-2)
+                                                        + '-' + ('0' + dob.getDate()).slice(-2) %>
+                                            </td>
+                                            <td  >
+                                                <%= c.phone %>
+                                            </td>
+                                            <td  >
+
+                                                <%= c.father_name %>
+                                            </td>
+                                            <td  >
+                                                <%= c.father_no %>
+                                            </td>
+                                            <td  >
+                                                <%= c.mother_name %>
+                                            </td>
+                                            <td  >
+                                                <%= c.mother_no %>
+                                            </td>
+                                            <td  >
+                                                <%= c.pincode %>
+                                            </td>
+                                            <td  >
+                                                <%= c.district %>
+                                            </td>
+                                            <td  >
+                                                <%= c.state %>
+                                            </td>
+                                            <td  >
+                                                <%= c.session_name %>
+                                            </td>
+                                            <td>
+                                                <% if(c.status == 2) { %>
+                                                    <form method="post" action="/studentApproval">
+                                                        <input type="hidden" value="<%= c.id %>" name="id">
+                                                        <input type="hidden" value="<%= c.email %>"  name="email">
+                                                        <input type="hidden" value="<%= c.dob %>"  name="dob">
+                                                        <button type="submit"
+                                                            class="btn btn-success">Active</button>
+                                                    </form>
+                                                    <% }%>
+                                            </td>
+                                            <td>
+                                                <!-- HTML with EJS for dynamic class editing -->
+
+                                                <div class="filter">
+                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                            class="bi bi-three-dots"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#editstudentRegistration<%= c.id %>">Edit/View</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal<%= c.id %>">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-- Delete Modal -->
+                                                <div class="modal fade" id="exampleModal<%= c.id %>" tabindex="-1"  >
+                                                    <div class="modal-dialog" >
+                                                        <div class="modal-content">
+                                                            <div class="modal-footer">
+                                                                <span style="margin-right: 100px;"><b>Do You want toDelete This ?</b></span>
+                                                                <a href="/student" type="button"
+                                                                    class="btn btn-secondary">No</a>
+                                                                <a href="deletestudent?id=<%= c.id %>" type="button"
+                                                                    class="btn btn-danger">Yes</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- ########################################################################################################################################### -->
+
+                                                <!-- Edit Class Modal -->
+                                                <div class="modal fade" id="editstudentRegistration<%= c.id %>"
+                                                    tabindex="-1" role="dialog"
+                                                    aria-labelledby="editClassModalLabel<%= c.id %>" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Students Detail</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                            
+
+                                                            <form method="post" action="/updatestudent" enctype="multipart/form-data">
+                                                                <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="modal-body">
+                                                                        <div class="col-12">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    <input type="hidden" name="id" value="<%= c.id %>" />
+                                                                                    <label class="form-label">Full Name <b>*</b></label>
+                                                                                    <input type="text" name="full_name"  value="<%= c.full_name %>" class="form-control"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Roll No</label>
+                                                                                    <input type="text" name="roll_no"  value="<%= c.roll_no %>" class="form-control"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Email<b>*</b></label>
+                                                                                    <input type="email" name="email"  value="<%= c.email %>" class="form-control" required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Phone</label>
+                                                                                    <input type="tel" name="phone" value="<%= c.phone %>" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">DOB <b>*</b></label>
+                                                                                    <input type="date" name="dob" value="<%= c.dob %>" class="form-control" required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Class Name</label>
+                                                                                    <select name="class_id" class="form-control" required>
+                                                                                        <option class="col-5" value="<%= c.class_id %>">
+                                                                                            <%= c.class_name %>
+                                                                                                <%= c.section %>
+                                                                                        </option>
+                                                                                        <% if(classess.length> 0) { %> <% classess.forEach(function(c) { %>
+                                                                                                <option class="col-5" value="<%= c.id %>">
+                                                                                                    <%= c.class_name %>
+                                                                                                        <%= c.section %>
+                                                                                                </option>
+                                                                                                <% }) %>
+                                                                                                    <% } else { %>
+                                                                                                        <option value="">First Add
+                                                                                                            Your School Class
+                                                                                                        </option>
+                                                                                                        <% } %>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Adharcard No</label>
+                                                                                    <input type="number" name="adharcard_no" value="<%= c.adharcard_no %>" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Adharcard Img</label>
+                                                                                    <input type="file" name="adharcard_img"  value="<%= c.adharcard_img %>" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Address <b>*</b></label>
+                                                                                    <input type="text" name="address" value="<%= c.address %>" class="form-control" required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">District <b>*</b></label>
+                                                                                    <input type="text" name="district" value="<%= c.district %>" class="form-control"
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="row">
+                            
+                                                                               
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Pincode <b>*</b></label>
+                                                                                    <input type="text" name="pincode"  value="<%= c.pincode %>" class="form-control" required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">State <b>*</b></label>
+                                                                                    <input type="text" name="state" value="<%= c.state %>" class="form-control" required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Father's Name <b>*</b></label>
+                                                                                    <input type="text" name="father_name" value="<%= c.father_name %>" class="form-control"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Father's Email</label>
+                                                                                    <input type="email" name="father_email" value="<%= c.father_email %>" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Father's No <b>*</b></label>
+                                                                                    <input type="tel" name="father_no" value="<%= c.father_no %>" class="form-control"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Mother's Name <b>*</b></label>
+                                                                                    <input type="text" name="mother_name" value="<%= c.mother_name %>" class="form-control"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Mother's Email</label>
+                                                                                    <input type="email" name="mother_email" value="<%= c.mother_email %>" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Mother's No</label>
+                                                                                    <input type="tel" name="mother_no"  value="<%= c.mother_no %>" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Transfer Certificate</label>
+                                                                                    <input type="file" name="transfer_certificate_img" value="<%= c.transfer_certificate_img %>"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="form-label">Medical Report Img</label>
+                                                                                    <input type="file" name="medical_report_img" value="<%= c.medical_report_img %>"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                                <div class="col-12">
+                                                                                    <label class="form-label">Session</label>
+                                                                                    <select name="session_id" class="form-control" required>
+                                                                                        <% if(sess.length> 0) { %>
+                                                                                            <option value="<%= c.session_id %>">
+                                                                                                <%= c.session_name %>
+                                                                                            </option>
+                                                                                            <% sess.forEach(function(c) { %>
+                                                                                                <option value="<%= c.id %>">
+                                                                                                    <%= c.session_name %>
+                                                                                                </option>
+                                                                                                <% }) %>
+                                                                                                    <% } else { %>
+                                                                                                        <option value="">First Add Your School
+                                                                                                            Session</option>
+                                                                                                        <% } %>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Student found.</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </main><!-- End #main -->
+
+
+
+        <!-- ======= Footer ======= -->
+        <%- include('includes/footer') %>
