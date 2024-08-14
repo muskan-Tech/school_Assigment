@@ -2,8 +2,11 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
+require("dotenv").config()
+const PORT = process.env.PORT || 3000 
 const app = express();
-const PORT = 3000;
+
+
 
 const indexRouter = require('./routes/index');
 
